@@ -14,9 +14,12 @@ int main() {
 	DWORD gold_value = 0;
 	DWORD bytes_read = 0;
 	DWORD base_address = 0x017EECB8;
-
-	ReadProcessMemory(sof2_process, (LPCVOID)base_address, &gold_value, 4, &bytes_read);
-
+	DWORD new_gold_value = 555;
+	DWORD bytes_written = 0;
+	
+	ReadProcessMemory(sof2_process, (LPCVOID)base_address, &gold_value, 4, &bytes_read); // old value
+	WriteProcessMemory(wesnoth_process, (void*)gold_value, &new_gold_value, 4, &bytes_written); // set new value
+	ReadProcessMemory(sof2_process, (LPCVOID)base_address, &gold_value, 4, &bytes_read); // read new value
 
 	return 0;
 }
